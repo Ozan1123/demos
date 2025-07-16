@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Game Tebak Angka</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <h1>🎲 Game Tebak Angka (1 - 10)</h1>
+  <p>Tebak angka yang dipikirkan komputer!</p>
+
+  <input type="number" id="tebakan" min="1" max="10" />
+  <button onclick="cekTebakan()" class="reset">Tebak</button>
+
+  <div class="result" id="hasil"></div>
+  <div class="result" id="hampir"></div>
+  <div class="riwayat" id="riwayat"></div>
+
+  <button class="reset" onclick="resetGame()">Main Lagi</button>
+
+  <script>
+    let angkaBenar = Math.floor(Math.random() * 10) + 1;
+    let percobaan = 0;
+    let riwayatTebakan = [];
+
+    function cekTebakan() {
+      const input = document.getElementById("tebakan");
+      const hasil = document.getElementById("hasil");
+      const hampir = document.getElementById("hampir");
+      const riwayat = document.getElementById("riwayat");
+      const tebakan = parseInt(input.value);
+
+      if (isNaN(tebakan) || tebakan < 1 || tebakan > 10) {
+        hasil.textContent = "Masukkan angka 1 sampai 10!";
+        hampir.textContent = "";
+        return;
+      }
+
+      percobaan++;
+      hasil.textContent = "";
+      hampir.textContent = "";
+
+      if (tebakan === angkaBenar) {
+        hasil.textContent = `🎉 Benar! Kamu menebaknya dalam ${percobaan} percobaan.`;
+        input.disabled = true;
+      } else {
+        riwayatTebakan.push(tebakan);
+        riwayat.textContent = "Tebakan yang salah: " + riwayatTebakan.join(", ");
+
+        const selisih = Math.abs(tebakan - angkaBenar);
+
+        if (selisih === 1) {
+          hampir.textContent = "Sedikit lagi!";
+        } else if (tebakan < angkaBenar) {
+          hasil.textContent = "Terlalu rendah! 🔽";
+        } else {
+          hasil.textContent = "Terlalu tinggi! 🔼";
+        }
+      }
+    }
+
+    function resetGame() {
+      angkaBenar = Math.floor(Math.random() * 10) + 1;
+      percobaan = 0;
+      riwayatTebakan = [];
+      document.getElementById("hasil").textContent = "";
+      document.getElementById("hampir").textContent = "";
+      document.getElementById("riwayat").textContent = "";
+      document.getElementById("tebakan").value = "";
+      document.getElementById("tebakan").disabled = false;
+    }
+  </script>
+
+</body>
+</html>
