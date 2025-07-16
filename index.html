@@ -20,6 +20,9 @@
 
   <button class="reset" onclick="resetGame()">Main Lagi</button>
 
+  <!-- Animasi Jempol -->
+  <img id="jempol" src="https://media.giphy.com/media/111ebonMs90YLu/giphy.gif" alt="Jempol" style="display: none; width: 150px; margin-top: 20px;" />
+
   <script>
     let angkaBenar = Math.floor(Math.random() * 10) + 1;
     let percobaan = 0;
@@ -30,21 +33,25 @@
       const hasil = document.getElementById("hasil");
       const hampir = document.getElementById("hampir");
       const riwayat = document.getElementById("riwayat");
+      const jempol = document.getElementById("jempol");
       const tebakan = parseInt(input.value);
 
       if (isNaN(tebakan) || tebakan < 1 || tebakan > 10) {
         hasil.textContent = "Masukkan angka 1 sampai 10!";
         hampir.textContent = "";
+        jempol.style.display = "none";
         return;
       }
 
       percobaan++;
       hasil.textContent = "";
       hampir.textContent = "";
+      jempol.style.display = "none";
 
       if (tebakan === angkaBenar) {
         hasil.textContent = `🎉 Benar! Kamu menebaknya dalam ${percobaan} percobaan.`;
         input.disabled = true;
+        jempol.style.display = "block";
       } else {
         riwayatTebakan.push(tebakan);
         riwayat.textContent = "Tebakan yang salah: " + riwayatTebakan.join(", ");
@@ -70,6 +77,7 @@
       document.getElementById("riwayat").textContent = "";
       document.getElementById("tebakan").value = "";
       document.getElementById("tebakan").disabled = false;
+      document.getElementById("jempol").style.display = "none";
     }
   </script>
 
